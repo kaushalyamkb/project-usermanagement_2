@@ -9,7 +9,7 @@ import Header from './components/header/Header'
 import Body from './components/body/Body'
 import axios from 'axios'
 
-import data from './data'
+
 
 
 
@@ -46,7 +46,7 @@ useEffect(() => {
 
 }, [token, dispatch])
 
-const {products} = data;
+
   return (
 
     <Router>
