@@ -122,7 +122,7 @@ const handleUpdate = () => {
 
 const handleDelete = async (id) => {
     try {
-        if(user._id !== id){
+        if(user._id == id){
             if(window.confirm("Are you sure you want to delete this account?")){
                 setLoading(true)
                 await axios.delete(`/user/delete/${id}`, {
@@ -138,9 +138,8 @@ const handleDelete = async (id) => {
     }
 }
 
-const handleDeleteUser = async (id) => {
-    
-      
+
+const handleDeleteMng = async (id) => {
     try {
         if(user._id !== id){
             if(window.confirm("Are you sure you want to delete this account?")){
@@ -156,8 +155,9 @@ const handleDeleteUser = async (id) => {
     } catch (err) {
         setData({...data, err: err.response.data.msg , success: ''})
     }
-      
 }
+
+
     return(
 <>
             
@@ -171,8 +171,8 @@ const handleDeleteUser = async (id) => {
 
         <div className ="profile_page">
 
-            <div className="col-left">
-            <h2>{isAdmin ? "Admin Profile": "User Profile"}</h2>
+<div className="col-left">
+            <h2><u>{isAdmin ? "Admin Profile": "User Profile"}</u></h2>
 
                 <div className="avatar">
 
@@ -230,22 +230,28 @@ const handleDeleteUser = async (id) => {
                     </em>
                    
                 </div>
-<div className="col-left3">
+        <div className="col-left12">
                 <button disabled={loading} onClick={handleUpdate} >Update Data <i class="fas fa-pen"></i></button>
 
-</div>
+         </div>
 </div>                  
 
-<div>
-<br></br><br></br>
+
+<div><br></br><br></br></div>
             
-</div>
-           
 
-            <div className="col-right">
-                
-            <h2>{isAdmin ? "Users" : "My Orders " } </h2><i>this table will only active if you are a User Manager</i>
+          
 
+<div className="col-right">
+            <br></br> 
+
+        <div class="rightNav">
+            <input type="text" name="search" id="search" placeholder="Type to search..."/>
+            <button class="btn btn-sm">Search  <i class="fas fa-search"></i> </button>
+        </div>
+
+
+        <h2>{isAdmin ? "Your role : User Manager (1)" : "Your Role : User (0)" } </h2>
 
             <div style={{overflowX: "auto"}}>
                 <table className = "customers">
@@ -254,15 +260,64 @@ const handleDeleteUser = async (id) => {
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Admin</th>
+                            <th>Manager</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            users.map(user => (
+                        <tr key={user._id}>
+                            <td>{user._id}</td>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>
+                                {
+                                  user.role === 1
+                                  ? <i className="fas fa-check" title="User Manager"></i>
+                                 : <i className="fas fa-times" title="User"></i>
+                                 }
+                            </td>
+                                    
+                            <td>
+                                 <i className="fas fa-trash-alt" title="Remove"
+                                onClick={() => handleDelete(user._id)} ></i>
+                            </td>
+                        </tr>        
+                    </tbody>
+                </table>
 
+<br></br>
+
+
+<hr className="class-2"></hr>
+
+<br></br>
+
+
+    <div style={{float: 'left'}}>
+
+        <tbody>
+            <h4>Edit Other Users </h4>
+            <h6>This will only work if you are a manager of user management</h6>
+        </tbody>
+    </div>
+
+    <table className = "customers">
+        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Manager</th>
+                            <th>Action</th>
+                        </tr>
+        </thead>
+         <tbody>
+
+
+                    {
+                            users.map(user => (
                                     <tr key={user._id}>
+
 
                                     <td>{user._id}</td>
                                     <td>{user.name}</td>
@@ -279,95 +334,130 @@ const handleDeleteUser = async (id) => {
                                             <i className="fas fa-edit" title="Edit"></i>
                                             </Link>
                                             <i className="fas fa-trash-alt" title="Remove"
-                                            onClick={() => handleDelete(user._id)} ></i>
+                                            onClick={() => handleDeleteMng(user._id)} ></i>
                                             </td>
                                  </tr>
-
                             ))
                         }
-                            
-                            
-                    </tbody>
-                </table>
-            </div>
+                        
+        </tbody> 
+    </table>
+  </div>
+</div>
 
+</div>
 
-
-
-            
-            <br></br><br></br><br></br><br></br>
-            <br></br><br></br>
-            <br></br> <br></br> 
-            <br>
-           </br><br></br>
-            <br></br> <br></br><br></br><br></br>
-           
-       <Link>
-          <div className="col-left6 div1">
-                <button >Search <i className="fas fa-history"></i></button> 
-                </div>  </Link>
-               
-              
-        
-            <br></br><br></br><br></br><br></br>
-            <div className="col-left2 div1">
-           
-            <button  onClick={ handleDeleteUser} >delete <i class="far fa-trash-alt"></i></button>
-                </div>
-            </div>
-
-
-  
-
-        </div>
 <br></br>
 
-<div className="davet">
+<center><h4><u>User report</u></h4></center>
+
+<br></br>
+
+<h6>This is only a preview. Select "genarate report" button for more...</h6>
+<br></br>
+
+        <div class="rowf">
+            <div class="column">
+                <div class="html1">
+                    <div class="html1">
+                        <div className="davet">
 
         <br></br>
-        <div className="davet2">
-        <center>
-<h4>My data</h4>
 
-</center>
-</div>
+                        <div className="html1">
+                                <center>
+                                    <h4>My data</h4>
+
+                                </center>
+                        </div>
         <br></br>
       
-        <table style={{width:'100%'}}>
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Your Role(0,1)</th>
-  
-    
-  </tr>
-  <tr>
-  <td>{user._id}</td>
-    <td>{user.name}</td>
-    <td>{user.email}</td>
-    <td>{user.role}</td>
+        <table className = "customers2">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Your Role(0,1)</th>                
+            </tr>
 
-  
-  </tr>
- 
+            <tr>
+            <td>{user._id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td> {
+                         user.role === 1
+                         ? <h6>Manager</h6>
+                         : <h6>User</h6>
+                }
+            </td>
+            </tr>
+        </table>
+
+<br></br><br></br><br></br>
+
+   <h5>Other details</h5>
+
+<br></br><br></br>
+
+<div>
+<table className = "customers2">
+<thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                    {
+                            users.map(user => (
+                                    <tr key={user._id}>
+
+
+                                    <td>{user._id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.email}</td>
+                                    <td>
+                                    {
+                                                user.role === 1
+                                                ? <h6>Manager</h6>
+                                                : <h6>User</h6>
+                                            }
+                                    </td>
+                                    
+                                 </tr>
+                            ))
+                        }
+                    </tbody> 
 </table>
 </div>
-<br></br><br></br><br></br>
-<center>
-    <div className="profile_page">
-<div className="col-left2">
-<button href="#">Print data</button>
 </div>
 </div>
-</center>
-<br></br><br></br><br></br><br></br>
+</div>
+<br></br><br></br>    
+</div>
 
 
+        <div class="column">
+            <center>
+                <div className="profile_page ">
+                     <div className="col-left20">
+                            <Link to="/PrintCus">
+                            <button onclick="/PrintCus">Genarate Report   . <i class="fas fa-print"></i></button>
+                            </Link>
+ 
+                        </div>
+                    </div>
+                </center>
+            </div>
+        </div>
+      
         </>
-    )
-
-   
+    )   
 }
 
 export default Profile
